@@ -23,7 +23,7 @@ let package = Package(
 //            name: "SonarPenKit",
 //            dependencies: []),
         .binaryTarget(
-                    name: "SonarPenKitBinaryPackage",
+                    name: "SonarPenKit",
                     url: "https://github.com/SonarPen/SonarPenKit/raw/main/Bin/SonarPenKit.xcframework.zip",
                     checksum: "1e894677a49a427ddcfc599ad85bbe82beaccedee8fc1e65a21e1f2910a83c30"
                 ),
