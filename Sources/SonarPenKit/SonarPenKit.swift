@@ -1,6 +1,9 @@
-public struct SonarPenKit {
-    public private(set) var text = "Hello, World!"
+import SonarPenKitBinaryPackage
 
-    public init() {
+public struct SonarPenKit {
+    
+    public static func start(application: UIApplication) {
+        SonarPenKitBinaryPackage.SonarPenKit.start(application: application)
     }
+    
 }

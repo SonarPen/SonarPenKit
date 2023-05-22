@@ -19,16 +19,16 @@ let package = Package(
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
-        .target(
-            name: "SonarPenKit",
-            dependencies: []),
+//        .target(
+//            name: "SonarPenKit",
+//            dependencies: []),
         .binaryTarget(
                     name: "SonarPenKitBinaryPackage",
                     url: "https://github.com/SonarPen/SonarPenKit/raw/main/Bin/SonarPenKit.xcframework.zip",
                     checksum: "1e894677a49a427ddcfc599ad85bbe82beaccedee8fc1e65a21e1f2910a83c30"
                 ),
-        .testTarget(
-            name: "SonarPenKitTests",
-            dependencies: ["SonarPenKit"]),
+//        .testTarget(
+//            name: "SonarPenKitTests",
+//            dependencies: ["SonarPenKit"]),
     ]
 )
