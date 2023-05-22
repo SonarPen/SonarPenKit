@@ -25,7 +25,7 @@ let package = Package(
         .binaryTarget(
                     name: "SonarPenKit",
                     url: "https://github.com/SonarPen/SonarPenKit/raw/main/Bin/SonarPenKit.xcframework.zip",
-                    checksum: "1e894677a49a427ddcfc599ad85bbe82beaccedee8fc1e65a21e1f2910a83c30"
+                    checksum: "bea7a941e12f4586db84be9bfab59710bef87ceaeac46644d2c0572f8c5347ce"
                 ),
 //        .testTarget(
 //            name: "SonarPenKitTests",
