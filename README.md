@@ -33,6 +33,28 @@ SonarPen.start(application: UIApplication.shared)
 
 that will start the driver, when no pen is attached, the app will behave exactly the same as without driver.  If Sonar Pen is attached, it will return the pressure of the pen correctly.
 
+If you want to unload the framework:
+
+```swift
+SonarPen.top()
+```
+
+## Objective C
+
+To use the framework in Objective C:
+
+```objective-c
+#import "SonarPenKit/SonarPenKit.h"
+
+    [SonarPen startWithApplication:application];
+```
+
+To load the framework:
+
+```objective-c
+    [SonarPen stop];
+```
+
 ## Example
 
 You can download the example [here](
