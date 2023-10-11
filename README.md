@@ -19,7 +19,7 @@ Once you have your Swift package set up, adding SonarPenKit as a dependency is a
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/SonarPen/SonarPenKit", .upToNextMajor(from: "0.5.0"))
+    .package(url: "https://github.com/SonarPen/SonarPenKit", .upToNextMajor(from: "0.7.2"))
 ]
 ```
 
