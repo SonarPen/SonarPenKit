@@ -28,7 +28,7 @@ dependencies: [
 Simply add the following line of code in startup of the application, e.g. viewDidLoad of view controller:
 
 ```swift
-SonarPen.start(application: UIApplication.shared)
+    SonarPen.start(application: UIApplication.shared)
 ```
 
 that will start the driver, when no pen is attached, the app will behave exactly the same as without driver.  If Sonar Pen is attached, it will return the pressure of the pen correctly.
@@ -36,8 +36,18 @@ that will start the driver, when no pen is attached, the app will behave exactly
 If you want to unload the framework:
 
 ```swift
-SonarPen.top()
+    SonarPen.top()
 ```
+
+You can get the current state [.notStarted, .notConnected, .connected] of the driver and receive notification by:
+
+```swift
+    SonarPen.state()
+
+    NotificationCenter.default.addObserver(self, selector: #selector(doStateChanged), name: Notification.Name.SonarPenKitStateChanged, object:nil)
+```
+
+
 
 ## Objective C
 
@@ -54,6 +64,17 @@ To load the framework:
 ```objective-c
     [SonarPen stop];
 ```
+
+To get state:
+
+```objective-c
+    [SonarPen state];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doStateChanged:) name:NSNotification.SonarPenKitStateChanged object:nil];
+    
+```
+
+
 
 ## Example
 

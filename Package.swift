@@ -17,8 +17,8 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .binaryTarget(
                     name: "SonarPenKit",
-                    url: "https://github.com/SonarPen/SonarPenKitBinary/raw/main/SonarPenKit.xcframework-0.7.2.zip",
-                    checksum: "b5a6fc3343282c8e4c2124ad4c310d2457ad6e1f604f49ad77163d361fd61fe3"
+                    url: "https://github.com/SonarPen/SonarPenKitBinary/raw/main/SonarPenKit.xcframework-0.7.3.zip",
+                    checksum: "a95647f4675d65f61536be6c96baf81c92b152e3a8f17476c0824b603bc235db"
                 ),
     ]
 )
