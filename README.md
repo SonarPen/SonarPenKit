@@ -19,7 +19,7 @@ Once you have your Swift package set up, adding SonarPenKit as a dependency is a
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/SonarPen/SonarPenKit", .upToNextMajor(from: "0.7.2"))
+    .package(url: "https://github.com/SonarPen/SonarPenKit", .upToNextMajor(from: "0.8.1"))
 ]
 ```
 
@@ -51,7 +51,7 @@ You can get the current state [.notStarted, .notConnected, .connected] of the dr
 
 ## Objective C
 
-To use the framework in Objective C:
+To use the framework in Objective C, the header file will be generated automatically by Swift Package Manager:
 
 ```objective-c
 #import "SonarPenKit/SonarPenKit.h"
@@ -74,6 +74,23 @@ To get state:
     
 ```
 
+## SonarPen v1 support
+
+The library is designed for SonarPen v2 by default, if you want to support SonarPen v1 as well, there will be some more work in the coding.  Because the hardware design of v1 is not as advance as the v2 pen, the integration as more complicated than v2 that need special handling for the touch events.
+
+```swift
+    if SonarPen.penVersion == .version1 {
+        _ = sonarPenTouchHandler.handleTouches(event: event, view: view)
+    }
+```
+
+```objective-c
+    if ([SonarPen penVersion] == PenVersionVersion1) {
+        [touchHandler handleTouchesWithEvent:event view:view];
+    }
+```
+
+For the detail, please check [SonarPenKitExample](https://github.com/SonarPen/SonarPenKitExample)
 
 
 ## Example
