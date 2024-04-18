@@ -85,7 +85,7 @@ The library is designed for SonarPen v2 by default, if you want to support Sonar
 ```
 
 ```objective-c
-    if ([SonarPen penVersion] == PenVersionVersion1) {
+    if ([SonarPen penVersion] == SonarPenVersionVersion1) {
         [touchHandler handleTouchesWithEvent:event view:view];
     }
 ```
