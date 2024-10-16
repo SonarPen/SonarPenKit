@@ -47,6 +47,16 @@ You can get the current state [.notStarted, .notConnected, .connected] of the dr
     NotificationCenter.default.addObserver(self, selector: #selector(doStateChanged), name: Notification.Name.SonarPenKitStateChanged, object:nil)
 ```
 
+Other helper functions:
+
+```swift
+    SonarPen.isRunning() // know SonarPenKit is already Started
+    SonarPen.lastError() // know the reason why toe SonarPen is not connected
+    SonarPen.pause() // pause pressure detection and audio generation
+    SonarPen.resume() // resume pressure detection and audio generation
+```
+
+
 
 
 ## Objective C
@@ -88,6 +98,15 @@ The library is designed for SonarPen v2 by default, if you want to support Sonar
     if ([SonarPen penVersion] == SonarPenVersionVersion1) {
         [touchHandler handleTouchesWithEvent:event view:view];
     }
+```
+
+Other helper functions:
+
+```swift
+    [SonarPen isRunning] // know SonarPenKit is already Started
+    [SonarPen lastError] // know the reason why toe SonarPen is not connected
+    [SonarPen pause] // pause pressure detection and audio generation
+    [SonarPen resume] // resume pressure detection and audio generation
 ```
 
 For the detail, please check [SonarPenKitExample](https://github.com/SonarPen/SonarPenKitExample)
