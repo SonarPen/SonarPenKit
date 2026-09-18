@@ -1,118 +1,177 @@
-Swift Package for SonarPenKit for iOS
- ===================================
+# SonarPenKit for iOS
 
-SonarPenKit is a iOS framework for next-gen Sonar Pen.  Sonar Pen is a stylus that make use of audio input as the power and pressure detection that make a low cost, full feature stylus to handheld devices.
+SonarPenKit is the iOS SDK for SonarPen, a pressure-sensitive stylus that uses the device's audio interface for power and pressure detection.
 
-The framework make use of original UIKit /  PencilKit APIs, so that developer can integrate the support of the stylus easily with few lines of code.
+The SDK integrates SonarPen input with standard iOS touch APIs so developers can add SonarPen support with minimal changes to existing UIKit-based drawing code. SonarPenKit 0.9.9 supports both SonarPen V1 and SonarPen V2.
 
 ## Requirements
 
-iOS 13.0 or above
+iOS 13.0 or later.
 
 ## Installation
 
-You can install SonarPenKit through Swift Manager Manager
+SonarPenKit can be installed with Swift Package Manager.
 
-The [Swift Package Manager](https://swift.org/package-manager/) is a tool for automating the distribution of Swift code and is integrated into the `swift` compiler. 
+In Xcode, add the following package URL:
 
-Once you have your Swift package set up, adding SonarPenKit as a dependency is as easy as adding it to the `dependencies` value of your `Package.swift`.
+`https://github.com/SonarPen/SonarPenKit`
+
+Or add SonarPenKit to the `dependencies` section of your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/SonarPen/SonarPenKit", .upToNextMajor(from: "0.9.5"))
+    .package(
+        url: "https://github.com/SonarPen/SonarPenKit",
+        .upToNextMajor(from: "0.9.9")
+    )
 ]
 ```
 
 ## Getting Started
 
-Simply add the following line of code in startup of the application, e.g. viewDidLoad of view controller:
+Start SonarPenKit once during application startup:
 
 ```swift
-    SonarPen.start(application: UIApplication.shared)
+SonarPen.start(application: UIApplication.shared)
 ```
 
-that will start the driver, when no pen is attached, the app will behave exactly the same as without driver.  If Sonar Pen is attached, it will return the pressure of the pen correctly.
+When no SonarPen is connected, normal touch input continues to work as usual. When a supported SonarPen is connected, SonarPenKit provides stylus pressure through the standard UIKit touch APIs.
 
-If you want to unload the framework:
+To stop SonarPenKit:
 
 ```swift
-    SonarPen.top()
+SonarPen.stop()
 ```
 
-You can get the current state [.notStarted, .notConnected, .connected] of the driver and receive notification by:
+## UIKit Touch Integration
+
+With SonarPenKit 0.9.9, both SonarPen V1 and SonarPen V2 can use the same UIKit touch path.
+
+For new integrations, handle SonarPen input in the same way you handle a stylus through `UITouch`:
 
 ```swift
-    SonarPen.state()
-
-    NotificationCenter.default.addObserver(self, selector: #selector(doStateChanged), name: Notification.Name.SonarPenKitStateChanged, object:nil)
+if touch.type == .pencil {
+    let pressure = touch.force
+    let maximumPressure = touch.maximumPossibleForce
+}
 ```
 
-Other helper functions:
+This allows the same drawing code to work with SonarPen V1 and SonarPen V2 without maintaining a separate V1 touch path.
+
+## SonarPen State
+
+You can get the current SonarPenKit state with:
 
 ```swift
-    SonarPen.isRunning() // know SonarPenKit is already Started
-    SonarPen.lastError() // know the reason why toe SonarPen is not connected
-    SonarPen.pause() // pause pressure detection and audio generation
-    SonarPen.resume() // resume pressure detection and audio generation
+let state = SonarPen.state()
 ```
 
+The possible states are:
 
+```swift
+.notStarted
+.notConnected
+.connected
+```
 
+You can also listen for state changes:
 
-## Objective C
+```swift
+NotificationCenter.default.addObserver(
+    self,
+    selector: #selector(doStateChanged),
+    name: Notification.Name.SonarPenKitStateChanged,
+    object: nil
+)
+```
 
-To use the framework in Objective C, the header file will be generated automatically by Swift Package Manager:
+## SonarPen Version
+
+You can check which SonarPen generation is currently detected:
+
+```swift
+let version = SonarPen.penVersion
+```
+
+Possible values are:
+
+```swift
+.unknown
+.version1
+.version2
+```
+
+## Other Helper Functions
+
+```swift
+SonarPen.isRunning() // Returns whether SonarPenKit has been started
+SonarPen.lastError() // Returns the most recent connection or calibration error
+SonarPen.pause()     // Pauses pressure detection and audio generation
+SonarPen.resume()    // Resumes pressure detection and audio generation
+```
+
+## Objective-C
+
+SonarPenKit can also be used from Objective-C. Swift Package Manager generates the framework header automatically.
+
+Import SonarPenKit:
 
 ```objective-c
-#import "SonarPenKit/SonarPenKit.h"
-
-    [SonarPen startWithApplication:application];
+#import <SonarPenKit/SonarPenKit.h>
 ```
 
-To load the framework:
+Start SonarPenKit:
 
 ```objective-c
-    [SonarPen stop];
+[SonarPen startWithApplication:[UIApplication sharedApplication]];
 ```
 
-To get state:
+Stop SonarPenKit:
 
 ```objective-c
-    [SonarPen state];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doStateChanged:) name:NSNotification.SonarPenKitStateChanged object:nil];
-    
+[SonarPen stop];
 ```
 
-## SonarPen v1 support
+Get the current state:
 
-The library is designed for SonarPen v2 by default, if you want to support SonarPen v1 as well, there will be some more work in the coding.  Because the hardware design of v1 is not as advance as the v2 pen, the integration as more complicated than v2 that need special handling for the touch events.
+```objective-c
+SonarPenState state = [SonarPen state];
+```
+
+Listen for state changes:
+
+```objective-c
+[[NSNotificationCenter defaultCenter]
+    addObserver:self
+    selector:@selector(doStateChanged:)
+    name:NSNotification.SonarPenKitStateChanged
+    object:nil];
+```
+
+## Legacy SonarPen V1 Touch-Handler API
+
+SonarPenKit 0.9.9 keeps the original SonarPen V1 touch-handler API for backward compatibility. Existing applications that already use the V1 integration can continue to use it.
+
+However, SonarPen V1 support is now integrated into the same UIKit touch API used by SonarPen V2. New applications, and existing applications being updated, are encouraged to use the unified UIKit integration described above. This allows one touch-handling path to support both SonarPen generations.
+
+The original V1 integration remains available for existing applications.
+
+### Swift
 
 ```swift
-    if SonarPen.penVersion == .version1 {
-        _ = sonarPenTouchHandler.handleTouches(event: event, view: view)
-    }
+if SonarPen.penVersion == .version1 {
+    _ = sonarPenTouchHandler.handleTouches(event: event, view: view)
+}
 ```
+
+### Objective-C
 
 ```objective-c
-    if ([SonarPen penVersion] == SonarPenVersionVersion1) {
-        [touchHandler handleTouchesWithEvent:event view:view];
-    }
+if ([SonarPen penVersion] == SonarPenVersionVersion1) {
+    [touchHandler handleTouchesWithEvent:event view:view];
+}
 ```
 
-Other helper functions:
+## Example Project
 
-```swift
-    [SonarPen isRunning] // know SonarPenKit is already Started
-    [SonarPen lastError] // know the reason why toe SonarPen is not connected
-    [SonarPen pause] // pause pressure detection and audio generation
-    [SonarPen resume] // resume pressure detection and audio generation
-```
-
-For the detail, please check [SonarPenKitExample](https://github.com/SonarPen/SonarPenKitExample)
-
-
-## Example
-
-You can download the example [here](
-https://github.com/SonarPen/SonarPenKitExample)
+For a complete integration example, see [SonarPenKitExample](https://github.com/SonarPen/SonarPenKitExample).
